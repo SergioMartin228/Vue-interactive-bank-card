@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>CardChecker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="card" id="app">
+
+        <!-- Здесь будет выводиться ЛОГОТИП БАНКА -->
+        <div class="bank">
+            <img v-bind:src="'img/banks/'+bankLogoF" v-if="bankLogoF">
+        </div>
+
+        <!-- Поле для ввода НОМЕРА КАРТЫ -->
+        <div class="number-container">
+            <input v-bind:class="{'input-ok' : status, 'input-err' : !status}" type="text" placeholder="Номер карты" v-model="cardNum">
+            <div class="status" v-bind:class="{'status-ok' : status, 'status-err' : !status}"></div>
+        </div>
+
+        <!-- Поле для ввода ИМЕНИ ДЕРЖАТЕЛЯ -->
+        <div class="name-container">
+            <input v-bind:class="{'input-ok' : statusOfName, 'input-err' : !statusOfName}" type="text" placeholder="Имя держателя" v-model="cardName">
+            <div class="status" v-bind:class="{'status-ok' : statusOfName, 'status-err' : !statusOfName}"></div>
+        </div>
+
+        <!-- Логотип ПЛАТЕЖНОЙ СИСТЕМЫ -->
+        <div class="pay-system">
+            <img v-bind:src="'img/systems/'+systemLogoF" v-if="systemLogoF">
+        </div>
+
+    </div>
+    <script src="https://unpkg.com/vue"></script>
+    <script>
+        'use strict';
+
+        const vm = new Vue({
+            el: '#app',
+
+            data: {
+                cardNum: '',
+                cardName: '',
+            },
+
+            computed: {
+                bankLogoF() {
+                    let buf = this.cardNum.slice(0, 6);
+                    if (buf == '521178' || buf == '548673' || buf == '548601' || buf == '415428' || buf == '676371' || buf == '477964' || buf == '479004')
+                        return 'alpha.png';
+                    if (buf == '427229' || buf == '527883' || buf == '447520')
+                        return 'vtb.png';
+                    if (buf == '548999' || buf == '526483')
+                        return 'gazprombank.png';
+                    if (buf == '533736' || buf == '540616')
+                        return 'mts-bank.png';
+                    if (buf == '434146' || buf == '405870' || buf == '544573' || buf == '532301')
+                        return 'otkrytie.png';
+                    if (buf == '440503' || buf == '554761')
+                        return 'rosbank.png';
+                    if (buf == '513691' || buf == '510047')
+                        return 'russian_standart.png';
+                    if (buf == '462730' || buf == '462729')
+                        return 'raiffaizen.png';
+                    if (buf == '427683' || buf == '427901' || buf == '427644' || buf == '427601' || buf == '427901' || buf == '427631' || buf == '427638' || buf == '546938')
+                        return 'sberbank.png';
+                    if (buf == '521324' || buf == '437773')
+                        return 'tinkoff.png';
+                    return false;
+                },
+                systemLogoF() {
+                    if (this.cardNum[0] == '2')
+                        return 'mir.png';
+                    if (this.cardNum[0] == '3')
+                        return 'american-exp.png';
+                    if (this.cardNum[0] == '4')
+                        return 'visa.png';
+                    if (this.cardNum[0] == '5')
+                        return 'mastercard.png';
+                    if (this.cardNum[0] == '6')
+                        return 'maestro.png';
+                    return false;
+                },
+                status() {
+                    /*
+                                        let arr = [];
+                                        let buf = this.cardNum;
+                                        let sum = 0;
+                                        for (let i = 0; i < buf.length; i++) {
+                                            if (i % 2 == 0) {
+                                                if (Number(buf[i]) * 2 > 9) {
+                                                    buf[i] = String((Number(buf[i]) * 2) % 10 + (Number(buf[i]) * 2) / 10);
+                                                }
+                                            }
+                                            sum += Number(buf[i]);
+                                        }
+                                        console.log(sum);
+                                        return sum % 10 == 0;*/
+                },
+                statusOfName() {
+                    if (this.cardName.length == 0)
+                        return false;
+                    let alph = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ ';
+                    for (let i = 0; i < this.cardName.length; i++) {
+                        if (alph.indexOf(this.cardName[i]) == -1)
+                            return false;
+                    }
+                    return true;
+                }
+            }
+        });
+
+    </script>
+</body>
+
+</html>
